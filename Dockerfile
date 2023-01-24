@@ -20,19 +20,3 @@ RUN npm install
 # no need for /home/app/server.js because of WORKDIR. The command that will be executed when the container is run. In this case, it runs the command node server.js, which starts the Node.js server.
 CMD ["node", "server.js"]
 
-
-
-
-    FROM node:13-alpine - 
-
-    ENV MONGO_DB_USERNAME=admin \ MONGO_DB_PWD=password - this line sets environment variables that will be available in the container. In this case, it sets the username and password for the MongoDB database.
-
-    RUN mkdir -p /home/app - this line runs the command mkdir -p /home/app, which creates a directory named "app" in the "/home" directory.
-
-    COPY ./app /home/app - this line copies the files from the "app" directory in the host machine to the "/home/app" directory in the container.
-
-    WORKDIR /home/app - this line sets the working directory for the container to "/home/app", so that any commands that follow will execute in that directory.
-
-    RUN npm install - this line runs the command npm install, which installs the dependencies specified in the package.json file in the "/home/app" directory.
-
-    CMD ["node", "server.js"] - this line specifies the command that will be executed when the container is run. In this case, it runs the command node server.js, which starts the Node.js server.

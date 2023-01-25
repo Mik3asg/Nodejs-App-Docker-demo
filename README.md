@@ -12,7 +12,7 @@ All components are docker-based
 
 ### To start the application
 
-Step 1: Create docker network
+Step 1: create docker network
 
     docker network create mongo-network 
 
@@ -24,7 +24,7 @@ Step 3: start mongo-express
     
     docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password --net mongo-network --name mongo-express -e ME_CONFIG_MONGODB_SERVER=mongodb mongo-express   
 
-_NOTE: creating docker-network is in optional. You can start both containers in a default network. In this case, just emit `--net` flag in `docker run` command_
+_NOTE: Creating docker-network is in optional. You can start both containers in a default network. In this case, just emit `--net` flag in `docker run` command_
 
 Step 4: check Docker images status
     
@@ -40,62 +40,95 @@ Step 6: open mongo-express from browser
 
 Step 7: create `my-db` _db_ and `users` _collection_ in mongo-express
 
-Step 8: Start your nodejs application locally - go to `app` directory of project 
+Step 8: start your nodejs application locally - go to `app` directory of project 
 
     npm install 
     node server.js
     
-Step 9: Access you nodejs application UI from browser
+Step 9: access you nodejs application UI from browser
 
     http://localhost:3000
 
 ## With a Dockerfile
-A dockerfile contains a script of instructions to build a container image
+
+A dockerfile contains a script of instructions to build a container image.
+Use-case: creating a Docker image from the application hosted in the local dvp environment 
 
 ### To build the docker image from the application 
 
-Step 1: after writng the script in Dockerfile, execute the build command
+Step 1: once Dockerfile is available - execute the build command
 
     docker build -t my-app:1.0 .
 
-The dot "." at the end of the command denotes location of the Dockerfile.
+_NOTE: The dot "." at the end of the command denotes location of the Dockerfile_
 
 Step 2: start the image
 
     docker run -d -p3000:3000 my-app:1.0
 
-Step 3: check Docker image status / if the image is running
+Step 3: check Docker image status (i.e whether the image is running as expected)
 
     docker images 
 
-Step 4: check Docker container status /if the container is running
+Step 4: check Docker container status (i.e whether the container is running as expected)
 
     docker ps
 
-### To create a private repository for a Docker image on AWS ECR (Elastic Container Registry)
+### To create a private repository for the Docker image on AWS ECR (Elastic Container Registry)
 
-Step 1: Create a repository in AWS ECR
+Use-cases: Once Docker image from the app is created with Dockerfile. This can be pushed into a private repository for dvp or tester
+to test in a different env. The image is pulled onto a dvp server. MongoDB and Mongo Express can be pulled from the public Docker Hub directory. 
+In the event, a new version of the app is released, then a new build process will need to be initiated with a new image
 
-Step 2: Retrieve the login command to use to authenticate your Docker client to AWS ECR Registry. 
-Execute it in your command prompt
+Step 1: create a private repository in AWS ECR
 
-Step 3: Follow the instructions for push commands mentionned in AWS ECR 
+    node-js-mongo-app-demo
 
-Step 4: Make some changes (i.e. change the code line for console.log) to the application server.js file
+Step 2: Docker login to authenticate to AWS ECR Registry
 
-Step 5: Rebuild new version 1.1
+    aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 990491002634.dkr.ecr.us-west-1.amazonaws.com
 
-    docker build -t my-app:1.1 . 
+_Pre-requisites: AWS CLI needs to be installed and credentials confired on your local machine_
+_NOTE: The repository name <990491002634.dkr.ecr.us-west-1.amazonaws.com> will be different in your case_
 
-Step 6: Execute the docker images command to confirm the new image was built successfully 
+Step 4: build the Docker image 
 
-Step 7: Push a new version to AWS ECR repo. Check the syntax in AWS ECR 
+    docker build -t node-js-mongo-app-demo .
 
-Note: The login process to AWS here is not required after a new version is released and pushed to AWS ECR 
+Step 6: tag your Docker image 
 
-### With Docker Compose
+    docker tag node-js-mongo-app-demo:latest 990491002634.dkr.ecr.us-west-1.amazonaws.com/node-js-mongo-app-demo:1.0
 
-#### To start the application
+Step 7: push the Docker image to the AWS ECR repository
+
+    docker push 990491002634.dkr.ecr.us-west-1.amazonaws.com/node-js-mongo-app-demo:1.0
+
+### To make some changes to the App, rebuild and push a new version to AWS ECR repository
+
+Step 1: modify the content of your nodejs application 
+
+Step 2: since the version of the nodejs application is now different. The build of a new image is required
+
+    docker build -t my-app:1.1 .
+
+_NOTE: 1.1 version for the new image_
+
+Step 3: Run docker image to check status and confirm 1.1 version is available 
+
+Step 4: Push the newly tag/version of the image to the private AWS ECR repository
+
+      docker push 990491002634.dkr.ecr.us-west-1.amazonaws.com/node-js-mongo-app-demo:1.1
+
+_NOTE: 1.1 tag for the new version has been applied_ 
+
+Step 5: Check in the AWS ECR Repository that the 1.1 image version has been upload accordingly 
+
+
+## With Docker Compose
+
+Docker Compose is a tool for running multi-container applications file in YAML file
+
+### To start the application
 
 Step 1: start mongodb and mongo-express
 
@@ -116,12 +149,11 @@ Step 5: access the nodejs application from browser
 
     http://localhost:3000
 
-### Docker command
+## Docker command
 Below are some the most used Docker CLI. The list is not exhaustive.
 Alternatively, you can find [The Ultimate Docker Cheat Sheet](https://dockerlabs.collabnix.com/docker/cheatsheet/)
 
-#### Run a new container
-
+### Run a new container
 
 Start a new container from an image
 
@@ -139,7 +171,7 @@ Start a new container from an image
 
     docker run -d IMAGE
 
-#### Manage containers
+### Manage containers
 
 Show a list of running containers
 
@@ -177,7 +209,7 @@ Rename a container
 
     docker rename OLD_NAME NEW_NAME
 
-#### Manage images
+### Manage images
 
 Download an image 
     

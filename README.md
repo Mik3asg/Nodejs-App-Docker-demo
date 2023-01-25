@@ -123,7 +123,6 @@ _NOTE: 1.1 tag for the new version has been applied_
 
 Step 5: Check in the AWS ECR Repository that the 1.1 image version has been upload accordingly 
 
-
 ## With Docker Compose
 
 Docker Compose is a tool for running multi-container applications file in YAML file
@@ -150,6 +149,7 @@ Step 5: access the nodejs application from browser
     http://localhost:3000
 
 ## Docker command
+
 Below are some the most used Docker CLI. The list is not exhaustive.
 Alternatively, you can find [The Ultimate Docker Cheat Sheet](https://dockerlabs.collabnix.com/docker/cheatsheet/)
 

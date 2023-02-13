@@ -1,5 +1,3 @@
-# docker-js-app-demo
-=======
 # Node.js with MongoDB Docker App Demo
 
 This demo app shows a simple user profile app using the following components:
@@ -54,7 +52,7 @@ Step 9: access you nodejs application UI from browser
 ## With a Dockerfile
 
 A dockerfile contains a script of instructions to build a container image.
-Use-case: creating a Docker image from the application hosted in the local dvp environment 
+We are building Docker image from the application hosted in the local dvp environment 
 
 ### To build the docker image from the application 
 
@@ -78,9 +76,9 @@ Step 4: check Docker container status (i.e whether the container is running as e
 
 ### To create a private repository for the Docker image on AWS ECR (Elastic Container Registry)
 
-Use-cases: Once Docker image from the app is created with Dockerfile. This can be pushed into a private repository for dvp or tester
-to test in a different env. The image is pulled onto a dvp server. MongoDB and Mongo Express can be pulled from the public Docker Hub directory. 
-In the event, a new version of the app is released, then a new build process will need to be initiated with a new image
+Once Docker image is built with Dockerfile, this can be pushed into a private repository. For example, this image can be pulled on a Dev server.
+However, MongoDB and Mongo Express can be pulled from the public Docker Hub directory. 
+If a new version of the app is released, then a new build process will need to be initiated with a new image
 
 Step 1: create a private repository in AWS ECR
 
@@ -150,7 +148,7 @@ Step 5: access the nodejs application from browser
 
     http://localhost:3000
 
-## Docker command
+## Docker commands
 
 Below are some the most used Docker CLI. The list is not exhaustive.
 Alternatively, you can find [The Ultimate Docker Cheat Sheet](https://dockerlabs.collabnix.com/docker/cheatsheet/)

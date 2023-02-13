@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # docker-js-app-demo
 =======
 # Node.js with MongoDB Docker App Demo
@@ -254,4 +253,3 @@ Show stats of running containers
 Show installed docker version
 
     docker version
->>>>>>> master
